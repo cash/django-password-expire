@@ -8,6 +8,9 @@ from .model import PasswordChange
 
 
 class PasswordChecker:
+    """
+    Checks if password has expired or if it will expire soon
+    """
     # password expires: last_changed + password_duration
     password_allowed_duration = timedelta(seconds=settings.PASSWORD_EXPIRE_SECONDS)
     # start warning at password expiration - duration
@@ -39,9 +42,9 @@ class PasswordChecker:
 
     def get_last_changed(self):
         # if no record, fallback to when user created
-        record = PasswordChange.objects.get(user=self.user)
-        if record:
+        try:
+            record = PasswordChange.objects.get(user=self.user)
             last_changed = record.last_changed
-        else:
+        except PasswordChange.DoesNotExist:
             last_changed = self.user.date_joined
         return last_changed

@@ -3,7 +3,10 @@ from django.contrib import messages
 from .util import PasswordChecker
 
 
-class PasswordChangeMiddleware:
+class PasswordExpireMiddleware:
+    """
+    Adds Django message if password expires soon
+    """
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -16,9 +19,6 @@ class PasswordChangeMiddleware:
                 if time_to_expire_string:
                     msg = f'Please change your password. It expires in {time_to_expire_string}.'
                     self.add_warning(request, msg)
-
-            # if past expiration, lock account
-
         return self.get_response(request)
 
     def add_warning(self, request, text):

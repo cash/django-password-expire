@@ -9,7 +9,7 @@ This app provides configurable expiration of passwords.
 ## Installation
  1. `pip install django-password-expire`.
  2. Add `password_expire` to `INSTALLED_APPS`.
- 3. Add `'password_expire.middleware.PasswordChangeMiddleware'` to `MIDDLEWARE`.
+ 3. Add `'password_expire.middleware.PasswordExpireMiddleware'` to `MIDDLEWARE`.
     It should be listed after authentication and session middlewares.
  4. Configure the app in your settings:
     ```python
