@@ -13,6 +13,8 @@ This app provides configurable expiration of passwords.
     It should be listed after authentication and session middlewares.
  4. Configure the app in your settings:
     ```python
+    # contact information if password is expired
+    PASSWORD_EXPIRE_CONTACT = "John Doe <jdoe@example.com>"
     # expire passwords after 90 days
     PASSWORD_EXPIRE_SECONDS = 90 * 24 * 60 * 60
     # start warning 10 days before expiration
