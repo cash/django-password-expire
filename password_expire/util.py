@@ -11,13 +11,12 @@ class PasswordChecker:
     """
     Checks if password has expired or if it will expire soon
     """
-    # password expires: last_changed + password_duration
-    password_allowed_duration = timedelta(seconds=settings.PASSWORD_EXPIRE_SECONDS)
-    # start warning at password expiration - duration
-    password_warning_duration = timedelta(seconds=settings.PASSWORD_EXPIRE_WARN_SECONDS)
-    one_day = timedelta(days=1)
-
     def __init__(self, user):
+        # password expires: last_changed + password_duration
+        self.password_allowed_duration = timedelta(seconds=settings.PASSWORD_EXPIRE_SECONDS)
+        # start warning at password expiration - duration
+        self.password_warning_duration = timedelta(seconds=settings.PASSWORD_EXPIRE_WARN_SECONDS)
+
         self.user = user
         self.last_changed = self.get_last_changed()
         self.expiration = self.last_changed + self.password_allowed_duration
