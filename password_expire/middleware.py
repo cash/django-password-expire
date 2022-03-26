@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.urls import resolve
 
 from .util import PasswordChecker
 
@@ -11,8 +12,8 @@ class PasswordExpireMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.method == "GET" and not request.is_ajax():
-            # if within the notification window of password expiration
+        if self.is_page_for_warning(request):
+            # add warning if within the notification window for password expiration
             if request.user.is_authenticated:
                 checker = PasswordChecker(request.user)
                 time_to_expire_string = checker.get_expire_time()
@@ -20,6 +21,17 @@ class PasswordExpireMiddleware:
                     msg = f'Please change your password. It expires in {time_to_expire_string}.'
                     self.add_warning(request, msg)
         return self.get_response(request)
+
+    def is_page_for_warning(self, request):
+        """
+        Only warn on pages that are GET requests and not ajax. Also ignore logouts.
+        """
+        if request.method == "GET" and not request.is_ajax():
+            match = resolve(request.path)
+            if match and match.url_name == 'logout':
+                return False
+            return True
+        return False
 
     def add_warning(self, request, text):
         storage = messages.get_messages(request)
