@@ -22,5 +22,10 @@ This app provides configurable expiration of passwords.
     ```
  5. Run `python manage.py migrate` to create the required database tables.
 
+To redirect new users to the change password page, set this flag in the settings:
+```python
+PASSWORD_EXPIRE_FORCE = True
+```
+
 ## Acknowledgements
 This app is inspired by [django-password-policies-iplweb](https://github.com/iplweb/django-password-policies-iplweb).

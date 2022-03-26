@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.shortcuts import redirect
 from django.urls import resolve
 
 from .util import PasswordChecker
@@ -6,7 +7,8 @@ from .util import PasswordChecker
 
 class PasswordExpireMiddleware:
     """
-    Adds Django message if password expires soon
+    Adds Django message if password expires soon.
+    Checks if user should be redirected to change password.
     """
     def __init__(self, get_response):
         self.get_response = get_response
@@ -20,7 +22,14 @@ class PasswordExpireMiddleware:
                 if time_to_expire_string:
                     msg = f'Please change your password. It expires in {time_to_expire_string}.'
                     self.add_warning(request, msg)
-        return self.get_response(request)
+
+        response = self.get_response(request)
+
+        # picks up flag for forcing password change
+        if getattr(request, 'redirect_to_password_change', False):
+            return redirect('password_change')
+
+        return response
 
     def is_page_for_warning(self, request):
         """
