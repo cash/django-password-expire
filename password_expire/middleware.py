@@ -21,6 +21,8 @@ class PasswordExpireMiddleware:
                 time_to_expire_string = checker.get_expire_time()
                 if time_to_expire_string:
                     msg = f'Please change your password. It expires in {time_to_expire_string}.'
+                    if checker.is_expired():
+                        msg = 'Please change your password. It has expired.'
                     self.add_warning(request, msg)
 
         response = self.get_response(request)

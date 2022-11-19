@@ -58,9 +58,9 @@ def change_password_handler(sender, instance, **kwargs):
 
 
 def login_handler(sender, request, user, **kwargs):
-    # Prevents login if password expired
+    # Prevents login if password expired unless superuser
     checker = PasswordChecker(request.user)
-    if checker.is_expired():
+    if checker.is_expired() and not request.user.is_superuser:
         if hasattr(settings, 'PASSWORD_EXPIRE_CONTACT'):
             contact = settings.PASSWORD_EXPIRE_CONTACT
         else:
