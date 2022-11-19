@@ -46,6 +46,6 @@ class PasswordExpireMiddleware:
         storage = messages.get_messages(request)
         for message in storage:
             # only add this message once
-            if 'password_expire' in message.extra_tags:
+            if message.extra_tags is not None and 'password_expire' in message.extra_tags:
                 return
         messages.warning(request, text, extra_tags='password_expire')
