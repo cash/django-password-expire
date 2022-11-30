@@ -18,10 +18,14 @@ class PasswordExpireMiddleware:
             # add warning if within the notification window for password expiration
             if request.user.is_authenticated:
                 checker = PasswordChecker(request.user)
-                time_to_expire_string = checker.get_expire_time()
-                if time_to_expire_string:
-                    msg = f'Please change your password. It expires in {time_to_expire_string}.'
+                if checker.is_expired():
+                    msg = f'Please change your password. It has expired.'
                     self.add_warning(request, msg)
+                else:
+                    time_to_expire_string = checker.get_expire_time()
+                    if time_to_expire_string:
+                        msg = f'Please change your password. It expires in {time_to_expire_string}.'
+                        self.add_warning(request, msg)
 
         response = self.get_response(request)
 
