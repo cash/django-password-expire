@@ -7,7 +7,7 @@ This app provides configurable expiration of passwords.
  * Prevents user from logging in after expiration
 
 ## Requirements
-This Django app requires Python >= 3.6 and has been tested with Django 2.2 and 3.1.
+This Django app requires Python >= 3.6 and has been tested with Django 2.2, 3.1, and 3.2.
 
 ## Installation
  1. `pip install django-password-expire`.
@@ -28,6 +28,11 @@ This Django app requires Python >= 3.6 and has been tested with Django 2.2 and 3
 To redirect new users to the change password page, set this flag in the settings:
 ```python
 PASSWORD_EXPIRE_FORCE = True
+```
+
+If you want to exclude superusers from the password expiration, set this flag:
+```python
+PASSWORD_EXPIRE_EXCLUDE_SUPERUSERS = True
 ```
 
 ## Acknowledgements
