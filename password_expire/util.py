@@ -23,9 +23,13 @@ class PasswordChecker:
         self.warning = self.expiration - self.password_warning_duration
 
     def is_expired(self):
+        if self.is_user_excluded():
+            return False
         return timezone.now() > self.expiration
 
     def is_warning(self):
+        if self.is_user_excluded():
+            return False
         return timezone.now() > self.warning
 
     def get_expire_time(self):
@@ -47,3 +51,10 @@ class PasswordChecker:
         except PasswordChange.DoesNotExist:
             last_changed = self.user.date_joined
         return last_changed
+
+    def is_user_excluded(self):
+        # admin can configure so superusers are excluded from check
+        if hasattr(settings, 'PASSWORD_EXPIRE_EXCLUDE_SUPERUSERS') and\
+                settings.PASSWORD_EXPIRE_EXCLUDE_SUPERUSERS:
+            return self.user.is_superuser
+        return False
