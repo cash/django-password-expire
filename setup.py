@@ -5,7 +5,7 @@ with open("README.md") as fp:
 
 setuptools.setup(
     name="django-password-expire",
-    version="0.1",
+    version="0.2",
     description="Django app for forcing password expiration",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -18,7 +18,7 @@ setuptools.setup(
     python_requires=">=3.6",
     install_requires=["humanize"],
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
