@@ -4,6 +4,7 @@ LANGUAGE_CODE = "en"
 USE_TZ = False
 USE_I18N = True
 SECRET_KEY = "fake-key"
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 PASSWORD_EXPIRE_SECONDS = 10 * 60  # 10 minutes
 PASSWORD_EXPIRE_WARN_SECONDS = 5 * 60  # 5 minutes
